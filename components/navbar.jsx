@@ -1,16 +1,35 @@
 "use client"
 import React, { useEffect } from 'react'
 import Image from 'next/image'
-import Navlogo from '../public/navlogo.png'
+import Navlogo from '../public/navlogo2.png'
 import Link from 'next/link'
 import {AiOutlineClose,AiOutlineMenu,AiOutlineMail} from 'react-icons/ai'
 import {FaLinkedinIn,FaGithub} from 'react-icons/fa'
 import {BsFillPersonLinesFill} from 'react-icons/bs'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
     const [nav,setNav] = useState(false)
     const [shadow,setShadow] = useState(false)
+    const [navBg, setNavBg] = useState('#ecf0f3')
+    const [linkColor, setLinkColor] = useState('#1f2937')
+    const router = usePathname()
+
+    useEffect(()=>{
+        if(
+            router === '/netfliks'||
+            router === '/movie-app'||
+            router === '/expense-tracker'
+        ){
+            setNavBg('transparent')
+            setLinkColor('#ecf0f3')
+        }
+        else{
+            setNavBg('#ecf0f3')
+            setLinkColor('#1f2937')
+        }
+    },[router])
 
     useEffect(() => {
         const handleShadow = () => {
@@ -28,11 +47,11 @@ const Navbar = () => {
         setNav(!nav)
     }
   return (
-    <div className={shadow ? 'fixed w-full h-20 shadow-xl z-50' : 'fixed w-full h-20 z-50'}>
+    <div style={{backgroundColor: `${navBg}`}} className={shadow ? 'fixed w-full h-20 shadow-xl z-50   ' : 'fixed w-full h-20 z-[100]'}>
       <div className='flex justify-between items-center w-full h-full px-4 2xl:px-16'>
         <Link href='/#main'><Image width="100" height="50" src={Navlogo} alt='/'/></Link>
         <div>
-            <ul className='hidden md:flex '>
+            <ul style={{color:`${linkColor}`}} className='hidden md:flex '>
                 <Link href="/#main">
                     <li className='ml-10 text-sm uppercase hover:border-b'>Home</li>
                 </Link>
@@ -73,20 +92,20 @@ const Navbar = () => {
             </div>
             <div className='py-4 flex flex-col font-bold'>
                 <ul className='uppercase '>
-                    <Link href='/'>
-                    <li className='py-4 text-sm'>Home</li>
+                    <Link href='/#main'>
+                    <li onClick={() => setNav(false)} className='py-4 text-sm'>Home</li>
                     </Link>
-                    <Link href='/'>
-                    <li className='py-4 text-sm'>About</li>
+                    <Link href='/#about'>
+                    <li onClick={() => setNav(false)} className='py-4 text-sm'>About</li>
                     </Link>
-                    <Link href='/'>
-                    <li className='py-4 text-sm'>Skills</li>
+                    <Link href='/#skills'>
+                    <li onClick={() => setNav(false)} className='py-4 text-sm'>Skills</li>
                     </Link>
-                    <Link href='/'>
-                    <li className='py-4 text-sm'>Projects</li>
+                    <Link href='/#projects'>
+                    <li onClick={() => setNav(false)} className='py-4 text-sm'>Projects</li>
                     </Link>
-                    <Link href='/'>
-                    <li className='py-4 text-sm'>Contact</li>
+                    <Link href='/#contact'>
+                    <li onClick={() => setNav(false)} className='py-4 text-sm'>Contact</li>
                     </Link>
                 </ul>
                 <div className='pt-40'>
